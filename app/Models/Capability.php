@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Capability extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'page',
+        'title',
+        'description',
+        'icon',
+        'color',
+        'bg_color',
+        'check_color',
+        'sort_order',
+    ]; 
+    // protected $guarded = [];
 
     public function features()
     {
