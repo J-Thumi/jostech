@@ -1,0 +1,12 @@
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Jostech",
+    "url": "https://jostech.co.ke",
+    "logo": "https://jostech.co.ke/images/logo.png",
+    "sameAs": [
+        "https://github.com/J-Thumi",
+        "https://linkedin.com/in/josphat-thumi-0b0795308"
+    ],
+    "description": "Software development firm specializing in backend systems, custom web applications, and API integrations."
+}

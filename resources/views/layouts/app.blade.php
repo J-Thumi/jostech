@@ -28,18 +28,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Jostech",
-        "url": "https://jostech.co.ke",
-        "logo": "https://jostech.co.ke/images/logo.png",
-        "sameAs": [
-            "https://github.com/J-Thumi",
-            "https://linkedin.com/in/josphat-thumi-0b0795308"
-        ],
-        "description": "Software development firm specializing in backend systems, custom web applications, and API integrations."
-    }
+        {!! file_get_contents(public_path('json/schema.json')) !!}
     </script>
     
     <!-- Tailwind CSS v3 CDN -->
