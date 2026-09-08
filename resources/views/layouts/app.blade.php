@@ -3,12 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'JoSTech | Scalable Web, Mobile, Cloud & AI Solutions')</title>
-    
+    <title>@yield('title', 'JoSTech | Software Engineering & Digital Solutions, Scalable Web, Mobile, Cloud & AI Solutions')</title>
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+    <meta name="description" content="Jostech delivers high-performance web applications, backend APIs, microservices, and custom software architecture.">
+    <meta name="keywords" content="Jostech, Software Development, Laravel, Web Development, API Integration">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jostech.co.ke/">
+    <meta property="og:title" content="Jostech | Software Engineering & Digital Solutions">
+    <meta property="og:description" content="High-performance web applications, backend APIs, and custom software solutions.">
+    <meta property="og:image" content="https://jostech.co.ke/images/og-cover.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Jostech | Software Engineering & Digital Solutions">
+    <meta property="twitter:description" content="High-performance web applications, backend APIs, and custom software solutions.">
+    <meta property="twitter:image" content="https://jostech.co.ke/images/og-cover.png">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Jostech",
+        "url": "https://jostech.co.ke",
+        "logo": "https://jostech.co.ke/images/logo.png",
+        "sameAs": [
+            "https://github.com/J-Thumi",
+            "https://linkedin.com/in/josphat-thumi-0b0795308"
+        ],
+        "description": "Software development firm specializing in backend systems, custom web applications, and API integrations."
+    }
+    </script>
     
     <!-- Tailwind CSS v3 CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
