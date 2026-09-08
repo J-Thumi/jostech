@@ -2,71 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactBudgetTier;
+use App\Models\ContactDetail;
+use App\Models\ContactFaq;
+use App\Models\ContactService;
+use App\Models\ContactSubmission;
+use App\Models\Page;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class ContactController extends Controller
 {
     /**
-     * Get dynamic page content.
+     * Build the dynamic page content from the database.
      */
     private function getPageContent(): array
     {
+        $page = Page::where('key', 'contact')->firstOrFail();
+        $details = ContactDetail::first();
+
         return [
             'hero' => [
-                'badge' => 'Let’s Build Something Scalable',
-                'title_prefix' => 'Ready to Engineer Your Next',
-                'title_highlight' => 'Digital Solution?',
-                'description' => 'Whether you need a custom web application, automated cloud architecture, or complex API integrations, we deliver production-ready software systems.',
+                'badge' => $page->hero_badge,
+                'title_prefix' => $page->hero_title_prefix,
+                'title_highlight' => $page->hero_title_highlight,
+                'description' => $page->hero_description,
             ],
             'contact_info' => [
-                'email' => 'thumijosphat47@gmail.com',
-                'response_time' => 'Average response: < 4 hours',
-                'turnaround' => '24-48 Hours Proposal',
-                'turnaround_detail' => 'Detailed scope break-down and cost estimations',
-                'confidentiality' => 'Strict Confidentiality',
-                'confidentiality_detail' => 'Mutual NDAs available prior to code/design audits',
+                'email' => $details?->email,
+                'response_time' => $details?->response_time,
+                'turnaround' => $details?->turnaround,
+                'turnaround_detail' => $details?->turnaround_detail,
+                'confidentiality' => $details?->confidentiality,
+                'confidentiality_detail' => $details?->confidentiality_detail,
             ],
             'terminal' => [
-                'status' => 'system.ready',
-                'version' => 'v2.4.0',
-                'command' => '$ jostech-cli init-project --client="new"',
-                'success_msg' => '[SUCCESS] Initializing architectural requirements template...',
-                'info_msg' => '[INFO] Ready to ingest API design, database schemas, or cloud migration requests.',
+                'status' => $details?->terminal_status,
+                'version' => $details?->terminal_version,
+                'command' => $details?->terminal_command,
+                'success_msg' => $details?->terminal_success_msg,
+                'info_msg' => $details?->terminal_info_msg,
             ],
-            'services' => [
-                ['key' => 'web-app', 'label' => 'Web Application', 'icon' => 'code', 'color' => 'text-primary'],
-                ['key' => 'api', 'label' => 'REST / GraphQL API', 'icon' => 'server', 'color' => 'text-accent'],
-                ['key' => 'devops', 'label' => 'DevOps / Cloud', 'icon' => 'cloud', 'color' => 'text-secondary'],
-                ['key' => 'ai', 'label' => 'AI Pipelines', 'icon' => 'cpu', 'color' => 'text-rose-500'],
-                ['key' => '3d-xr', 'label' => '3D / WebXR', 'icon' => 'box', 'color' => 'text-amber-500'],
-                ['key' => 'audit', 'label' => 'System Audit', 'icon' => 'shield-check', 'color' => 'text-indigo-500'],
-            ],
-            'budget_tiers' => [
-                'small' => '< $2,500 (Small Feature / Code Review)',
-                'medium' => '$2,500 - $7,500 (MVP / Full Application)',
-                'large' => '$7,500 - $15,000+ (Enterprise Platform Architecture)',
-            ],
-            'faqs' => [
-                [
-                    'question' => 'What happens after I submit this brief?',
-                    'answer' => 'Our lead technical team reviews your scope requirements and prepares an architecture plan, suggested tech stack, and cost breakdown within 24 to 48 hours.',
-                ],
-                [
-                    'question' => 'What technologies do you specialize in?',
-                    'answer' => 'We specialize in Laravel/PHP, Livewire, Filament admin panels, Python/Django, Next.js, Docker containerization, and cloud server provisioning on platforms like CapRover.',
-                ],
-                [
-                    'question' => 'Can you work with existing legacy codebases?',
-                    'answer' => 'Yes. We perform initial system audits, query optimizations, security patches, and refactoring to modernize older software infrastructure smoothly.',
-                ],
-                [
-                    'question' => 'Do you provide ongoing maintenance?',
-                    'answer' => 'We offer long-term DevOps support, server health monitoring, continuous deployment setup, and feature updates following product launches.',
-                ],
-            ],
+            'services' => ContactService::ordered()
+                ->get(['key', 'label', 'icon', 'color'])
+                ->toArray(),
+            'budget_tiers' => ContactBudgetTier::ordered()
+                ->get()
+                ->pluck('label', 'key')
+                ->toArray(),
+            'faqs' => ContactFaq::ordered()
+                ->get(['question', 'answer'])
+                ->toArray(),
         ];
     }
 
@@ -97,7 +84,7 @@ class ContactController extends Controller
             'details.min' => 'Please provide a brief overview of at least 20 characters regarding your project requirements.',
         ]);
 
-        Log::info('New Project Brief Submitted', $validated);
+        ContactSubmission::create($validated);
 
         return redirect()->route('contact')
             ->with('success', 'Your project brief has been received! Our lead engineering team will review your requirements and respond within 24-48 hours.');
